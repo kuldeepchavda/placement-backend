@@ -1,6 +1,6 @@
 const express = require("express")
-const passPortConfig = require("../config/passPortConfig")
-const checkSessions =  require("../middleware/checkSessions")
+const passPortConfig = require("../config/passPortConfig.js")
+const checkSessions =  require("../middleware/checkSessions.js")
 const router = express.Router()
 const passport = require("passport")
 

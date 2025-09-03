@@ -4,10 +4,10 @@ const cors = require("cors")
 const passport = require("passport")
 const app = express()
 const session = require("express-session");
-const User = require("./Models/Users")
-const authRoutes = require("./routes/authenticate.routes")
-const jobRoutes = require("./routes/jobs.routes");
-const checkSessions = require("./middleware/checkSessions");
+const User = require("./Models/Users.js")
+const authRoutes = require("./routes/authenticate.routes.js")
+const jobRoutes = require("./routes/jobs.routes.js");
+const checkSessions = require("./middleware/checkSessions.js");
 
 app.use(express.json())
 
