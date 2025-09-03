@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jobController = require("../controllers/job.ctrl.js");
-const checkSessions = require("../middleware/checkSessions.js")
+
 // CRUD routes
 router.post("/", jobController.createJob);
 router.get("/", jobController.getJobs);

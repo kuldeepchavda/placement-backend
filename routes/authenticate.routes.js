@@ -57,7 +57,7 @@ router.route("/logout").get(async (req, res) => {
 
   req.logout((err) => {
     if (err) return res.status(500).json({ success: false, message: "Logout failed" })
-    res.json(201).json({ success: true, message: "Logout successfull." })
+    res.status(201).json({ success: true, message: "Logout successfull." })
   })
 })
 
