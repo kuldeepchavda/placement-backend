@@ -26,19 +26,25 @@ require("./config/DatabaseConfig")();
 require("./config/passPortConfig")(passport)
 
 // SESSIONS RELATED 
+const MongoStore = require("connect-mongo");
+ 
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL,  // your MongoDB connection string
+      ttl: 14 * 24 * 60 * 60,           // session lifetime in seconds (14 days)
+    }),
     cookie: {
-      maxAge: 1000 * 60 * 60,  
+      maxAge: 1000 * 60 * 60,
       httpOnly: true,
-      secure: false 
-    }
+      secure: true,
+      sameSite: "none",
+    },
   })
 );
-
 // PASSPORT CONFIG  
 app.use(passport.initialize());
 app.use(passport.session());
