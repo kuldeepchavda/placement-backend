@@ -10,13 +10,13 @@ const jobRoutes = require("./routes/jobs.routes.js");
 const checkSessions = require("./middleware/checkSessions.js");
 
 app.use(express.json())
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://placement-frontend-sepia.vercel.app'],
-  methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: ['http://localhost:5173', 'https://placement-frontend-sepia.vercel.app'],
+//   methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
+//   credentials: true,
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 // app.options('*', cors(corsOptions));
 
@@ -27,24 +27,27 @@ require("./config/passPortConfig")(passport)
 
 // SESSIONS RELATED 
 const MongoStore = require("connect-mongo");
- 
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URL,  // your MongoDB connection string
-      ttl: 14 * 24 * 60 * 60,           // session lifetime in seconds (14 days)
-    }),
-    cookie: {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: true,
-      secure: false,
-      sameSite: "none",
-    },
-  })
-);
+ app.use(cors({
+  origin: "https://your-frontend.onrender.com", // your React app URL
+  credentials: true, // allow cookies
+}));
+
+// Session setup
+app.use(session({
+  secret: process.env.SESSION_SECRET || "supersecret",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URL, // same DB used in local
+    ttl: 14 * 24 * 60 * 60, // 14 days
+  }),
+  cookie: {
+    httpOnly: true,
+    secure: true,          // important on Render (https)
+    sameSite: "none",      // allows cross-domain
+    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+  },
+}));
 // PASSPORT CONFIG  
 app.use(passport.initialize());
 app.use(passport.session());
