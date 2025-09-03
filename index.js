@@ -10,14 +10,16 @@ const jobRoutes = require("./routes/jobs.routes.js");
 const checkSessions = require("./middleware/checkSessions.js");
 
 app.use(express.json())
-
 const corsOptions = {
-  origin: ['http://localhost:5173','https://placement-frontend-sepia.vercel.app'],  
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
-  credentials: true, 
+  origin: ['http://localhost:5173', 'https://placement-frontend-sepia.vercel.app'],
+  methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));
+
 
 // connect to the database 
 require("./config/DatabaseConfig")();
