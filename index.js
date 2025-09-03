@@ -12,7 +12,7 @@ const checkSessions = require("./middleware/checkSessions");
 app.use(express.json())
 
 const corsOptions = {
-  origin: 'http://localhost:5173',  
+  origin: ['http://localhost:5173','https://placement-frontend-sepia.vercel.app'],  
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
   credentials: true, 
 };
@@ -26,13 +26,13 @@ require("./config/passPortConfig")(passport)
 // SESSIONS RELATED 
 app.use(
   session({
-    secret: "DUMMY_SECRET_KEY",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60, // 1 hour
+      maxAge: 1000 * 60 * 60,  
       httpOnly: true,
-      secure: false // true only if using HTTPS
+      secure: false 
     }
   })
 );
@@ -63,5 +63,5 @@ app.use("/job", jobRoutes)
 // START SERVER
 const port = 5000;
 app.listen(port, () => {
-  console.log(`Server running at ${port}.`)
+  console.log(`Server running at ${process.env.PORT}.`)
 }); 
