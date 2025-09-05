@@ -22,6 +22,7 @@ exports.getJobs = async (req, res) => {
 exports.getJobById = async (req, res) => {
   try {
     const job = await Job.findById(req.params.id);
+    console.log("jobs in ctrl", job);
     if (!job) return res.status(404).json({ success: false, message: "Job not found" });
     res.status(200).json({ success: true, data: job });
   } catch (err) {
