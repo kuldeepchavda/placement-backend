@@ -28,7 +28,6 @@ module.exports = (passport) => {
                     })
                     console.log("New user created", newUser.username)
                     return done(null, newUser) 
-                    console.log(newUser)
                 } catch (err) {
                     console.log("Error - user creation", err.message)
                     return done(err.message)
@@ -54,7 +53,6 @@ module.exports = (passport) => {
                     if (!isMatch) {
                         console.log("Wrong password")
                         return done(null, false, { message: "Incorrect password" })
-
                     }
                     if (isMatch)  return done(null, existingUser)
                 }
