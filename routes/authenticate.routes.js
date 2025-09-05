@@ -18,7 +18,12 @@ router.route("/signup").post(async (req, res, next) => {
       return res.status(501).json({ "message": info.message })
     }
     const generatedToken = getJWT({ username: user.username, id: user._id })
-    res.cookie("token", generatedToken)
+    res.cookie("token", generatedToken, {
+  httpOnly: true,
+  secure: true,          // only HTTPS
+  sameSite: "none",      // allow cross-site
+  maxAge: 1000 * 60 * 60 // 1h
+})
     res.status(201).json({ message: "Signed up." })
   })(req, res, next);
 });
@@ -35,7 +40,12 @@ router.route("/login").post(async (req, res, next) => {
     }
 
 
-    res.cookie("token", getJWT({ username: user.username, id: user._id }))
+    res.cookie("token", getJWT({ username: user.username, id: user._id }), {
+  httpOnly: true,
+  secure: true,          // only HTTPS
+  sameSite: "none",      // allow cross-site
+  maxAge: 1000 * 60 * 60 // 1h
+})
     res.status(201).json({ message: "Logged in" });
 
 
