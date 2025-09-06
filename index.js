@@ -4,23 +4,21 @@ const cors = require("cors");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 
-
 // ROUTES
-const authRoutes = require("./routes/authenticate.routes.js")
+const adminAuthRoutes = require("./routes/admin.authenticate.routes.js")
+const userAuthRoutes = require("./routes/user.authentication.routes.js")
 const jobRoutes = require("./routes/jobs.routes.js");
 const {validateSessions} = require("./middleware/checkSessions.js");
 
-
 // APP INITIATION 
 const app = express()
-
 
 //MIDDLEWARE
 app.use(express.json())
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://placement-frontend-3sp7.onrender.com','https://placement-frontend-sepia.vercel.app'],
+  origin: ['http://localhost:5173', 'https://placement-frontend-3sp7.onrender.com','https://placement-frontend-sepia.vercel.app','http://localhost:5174'],
   methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
   credentials: true,
 };
@@ -32,10 +30,10 @@ require("./config/passPortConfig")(passport)
 
 // PASSPORT CONFIG  
 app.use(passport.initialize());
-// app.use(passport.session());
 
 // ROUTES 
-app.use("/auth", authRoutes) 
+app.use("/auth/admin", adminAuthRoutes); 
+app.use("/auth/user", userAuthRoutes);
 app.use(validateSessions);
 app.use("/job", jobRoutes)
 

@@ -7,7 +7,7 @@ const { getJWT } = require("../config/JWT_opetations.js")
 
 
 router.route("/signup").post(async (req, res, next) => {
-  passport.authenticate("sign-up", (err, user, info) => { 
+  passport.authenticate("admin_signup", (err, user, info) => { 
     if (err) {
       console.log("Got an error while signing up.");
       console.log(1)
@@ -20,7 +20,7 @@ router.route("/signup").post(async (req, res, next) => {
     const generatedToken = getJWT({ username: user.username, id: user._id })
     res.cookie("token", generatedToken, {
   httpOnly: true,
-  secure: true,          // only HTTPS
+  secure: false,            // only HTTPS
   sameSite: "none",      // allow cross-site
   maxAge: 1000 * 60 * 60 // 1h
 })
@@ -29,7 +29,7 @@ router.route("/signup").post(async (req, res, next) => {
 });
 
 router.route("/login").post(async (req, res, next) => {
-  passport.authenticate("login", (err, user, info) => {
+  passport.authenticate("admin_login", (err, user, info) => {
     if (err) {
       console.log("Login error:", err, "\n1");
       return res.status(500).json({ success: false, message: err });
