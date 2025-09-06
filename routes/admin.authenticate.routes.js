@@ -41,8 +41,8 @@ router.route("/login").post(async (req, res, next) => {
 
 
     res.cookie("token", getJWT({ username: user.username, id: user._id }), {
-  httpOnly: true,
-  secure: true,          // only HTTPS
+  httpOnly: false,
+  secure: true,       // only HTTPS
   sameSite: "none",      // allow cross-site
   maxAge: 1000 * 60 * 60 // 1h
 })
