@@ -19,7 +19,7 @@ router.route("/signup").post(async (req, res, next) => {
     }
     const generatedToken = getJWT({ username: user.username, id: user._id })
     res.cookie("token", generatedToken, {
-  httpOnly: true,
+  httpOnly: false,
   secure: true,            // only HTTPS
   sameSite: "none",      // allow cross-site
   maxAge: 1000 * 60 * 60 // 1h
