@@ -1,33 +1,33 @@
 const LocalStrategy = require("passport-local").Strategy
 const bcrypt = require("bcryptjs")
 const Admin = require("../Models/Admin.js");
-const User = require("../Models/Users.js");
+const User = require("../Models/user/Users.js");
 const passport = require("passport")
 
 module.exports = (passport) => {
     passport.use("admin_signup",
         new LocalStrategy({
-            usernameField: "username",
+            usernameField: "email",
             passwordField: "password",
             passReqToCallback: true
         },
-            async (req, username, password, done) => {
+            async (req, email, password, done) => {
                 try {
-                    const user = await Admin.findOne({ username })
-                    if (!username || !password) {
+                    const user = await Admin.findOne({ email })
+                    if (!email || !password) {
                         console.log("Not Enough Info.")
                     }
                     if (user) {
-                        console.log("Admin", username, "already exists.")
-                        return done(null, false, { message: "username exists." })
+                        console.log("Admin", email, "already exists.")
+                        return done(null, false, { message: "email exists." })
                     }
                     const salt = await bcrypt.genSalt(10);
                     const hashedPassword = await bcrypt.hash(password, salt)
                     const newUser = await Admin.create({
-                        username: username,
+                        email: email,
                         password: hashedPassword
                     })
-                    console.log("New user created", newUser.username)
+                    console.log("New user created", newUser.email)
                     return done(null, newUser)
                 } catch (err) {
                     console.log("Error - user creation", err.message)
@@ -37,17 +37,17 @@ module.exports = (passport) => {
         )
     )
 
-    passport.use("admin_login",
+    passport.use("admin_login", 
         new LocalStrategy({
-            usernameField: "username",
+            usernameField: "email",
             passwordField: "password"
         },
-            async (username, password, done) => {
+            async (email, password, done) => {
                 try {
-                    const existingUser = await Admin.findOne({ username })
+                    const existingUser = await Admin.findOne({ email })
                     if (!existingUser) {
-                        console.log("Incorrect username or password")
-                        return done(null, false, { message: "Incorrect username " })
+                        console.log("Incorrect email or password")
+                        return done(null, false, { message: "Incorrect email " })
                     }
 
                     const isMatch = await bcrypt.compare(password, existingUser.password)
@@ -68,19 +68,19 @@ module.exports = (passport) => {
     )
     passport.use("user_signup",
         new LocalStrategy({
-            usernameField: "username",
+            usernameField: "email",
             passwordField: "password",
             passReqToCallback: true
         },
-            async function (req, username, password, done) {
+            async function (req, email, password, done) {
                 try {
                     // CHECK IF ALL THE FIELDS ARE PROVIDED  
-                    if (!username || !password) {
+                    if (!email || !password) {
                         return done(null, false, { message: "All fields required" })
                     }
 
                     // CHECK IF USER EXISTS
-                    const user = await User.findOne({ username })
+                    const user = await User.findOne({ email })
                     console.log("user",user);
                     if (user) {
                         return done(null, false, { message: "User Already Exists" })
@@ -89,7 +89,7 @@ module.exports = (passport) => {
                     const salt = await bcrypt.genSalt(10)
                     const hashedPassword = await bcrypt.hash(password, salt);
 
-                    const createdUser = await User.create({ username, password: hashedPassword })
+                    const createdUser = await User.create({ email, password: hashedPassword })
                     return done(null, createdUser)
                 } catch (error) {
                     console.log("Error-user", error.message);
@@ -100,30 +100,38 @@ module.exports = (passport) => {
     )
     passport.use("user_login",
         new LocalStrategy({
-            usernameField: "username",
+            usernameField: "email",
             passwordField: "password", 
         },
-            async function (  username, password, done) {
+            async function (  email, password, done) {
                 try {
-
+                    console.log(email, password);
+                    console.log(0)
                     // CHECK IF ALL FIELDS PROVIDED 
-                    if (!username || !password) {
+                    if (!email || !password) {
                         done(null, false, { message: "All fields required." })
                     }
+                    console.log(1)
 
                     // CHECK IF USER EXISTS 
-                    const user = await User.findOne({ username });
+                    const user = await User.findOne({ email });
+                    console.log(user);
+                    
                     if (!user) {
-                        console.log(username, "doesn't exist.");
+                        console.log(email, "doesn't exist.");
                         return done(null, false, { message: "user doesn't exist." })
                     }
+                    console.log(3)
 
                     const isMatched = await bcrypt.compare(password, user.password);
                     if (isMatched) {
-                        console.log("user", user.username, "logged in")
+                        console.log("user", user.email, "logged in")
                         return done(null, user)
                     }
+                    console.log(4)
+
                     return done(null, false, { message: "Worng password" });
+                    console.log(5)
 
                 }
                 catch (err) {

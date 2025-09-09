@@ -8,8 +8,10 @@ const cookieParser = require("cookie-parser");
 const adminAuthRoutes = require("./routes/admin.authenticate.routes.js")
 const userAuthRoutes = require("./routes/user.authentication.routes.js")
 const jobRoutes = require("./routes/jobs.routes.js");
+const ExperienceRoutes = require("./routes/users.routers/experience.router.js")
 const {validateSessions} = require("./middleware/checkSessions.js");
-
+const userRoutes = require("./routes/users.routers/users.routes.js")
+const EducationRoutes = require("./routes/users.routers/education.router.js")
 // APP INITIATION 
 const app = express()
 
@@ -35,13 +37,17 @@ app.use(passport.initialize());
 app.use("/auth/admin", adminAuthRoutes); 
 app.use("/auth/user", userAuthRoutes);
 app.use(validateSessions);
+app.use("/user",userRoutes)
 app.use("/job", jobRoutes)
+app.use("/experience", ExperienceRoutes);
+app.use("/education",EducationRoutes);
 
 // START SERVER
 const port = 5000;
 app.listen(port, () => {
   console.log(`Server running at ${process.env.PORT}.`)
 });
+
 console.log(1)
 console.log(2)
 console.log(3)

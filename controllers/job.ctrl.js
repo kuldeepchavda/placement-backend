@@ -11,9 +11,11 @@ exports.createJob = async (req, res) => {
 };
 
 exports.getJobs = async (req, res) => {
-  try {
+  try { 
+    console.log("giving  all the data to",req.user.email);
     const jobs = await Job.find();
-    res.status(200).json({ success: true, data: jobs });
+    const jobCounts= await Job.countDocuments();
+    res.status(200).json({ success: true, data: {jobs, counts : jobCounts} });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -47,5 +49,21 @@ exports.deleteJob = async (req, res) => {
     res.status(200).json({ success: true, message: "Job deleted successfully" });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
+exports.createManyJobs = async (req, res) => {
+  try {
+    const jobsArray = req.body; 
+    if (!Array.isArray(jobsArray) || jobsArray.length === 0) {
+      return res.status(400).json({ success: false, message: "Provide a non-empty array of jobs" });
+    }
+
+    const jobs = await Job.insertMany(jobsArray); 
+
+    res.status(201).json({ success: true, data: jobs });
+  } catch (err) {
+    res.status(400).json({ success: false, message: err.message });
   }
 };

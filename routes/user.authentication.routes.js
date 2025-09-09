@@ -16,7 +16,7 @@ router.route("/signup").post(async function (req,res,next) {
             return res.status(400).json({message:info.message})
         }
 
-        const generatedToken = getJWT({username:user.username, id:user._id})
+        const generatedToken = getJWT({email:user.email, _id:user._id})
         res.cookie("token",generatedToken,{
             httpOnly:true,
             secure:false,
@@ -38,12 +38,13 @@ router.route("/login").post(async function (req,res,next){
             console.log("login Err", err.message)
             return res.status(401).json({message:err})
         }
+        
         if(!user){
             console.log("not user")
             return res.status(401).json({message:info.message}) 
         }
 
-        const generatedToken  = getJWT({username:user.username,id:user._id})
+        const generatedToken  = getJWT({email:user.email,_id:user._id})
         res.cookie("token",generatedToken,{
             httpOnly:true,
             secure:false,
@@ -58,7 +59,9 @@ router.route("/login").post(async function (req,res,next){
 
 router.route("/logout").get(async function (req,res) {
     
+
     try{
+        console.log("hitted")
         res.clearCookie("token");
         res.status(201).json({ message: "Logged out successfully." })  
     }

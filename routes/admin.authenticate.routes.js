@@ -17,7 +17,7 @@ router.route("/signup").post(async (req, res, next) => {
       console.log(2)
       return res.status(501).json({ "message": info.message })
     }
-    const generatedToken = getJWT({ username: user.username, id: user._id })
+    const generatedToken = getJWT({ email: user.email, _id: user._id })
     res.cookie("token", generatedToken, {
   httpOnly: false,
   secure: true,            // only HTTPS
@@ -29,6 +29,7 @@ router.route("/signup").post(async (req, res, next) => {
 });
 
 router.route("/login").post(async (req, res, next) => {
+  console.log(req.body);
   passport.authenticate("admin_login", (err, user, info) => {
     if (err) {
       console.log("Login error:", err, "\n1");
@@ -40,7 +41,7 @@ router.route("/login").post(async (req, res, next) => {
     }
 
 
-    res.cookie("token", getJWT({ username: user.username, id: user._id }), {
+    res.cookie("token", getJWT({ email: user.email, _id: user._id }), {
   httpOnly: false,
   secure: true,       // only HTTPS
   sameSite: "none",      // allow cross-site

@@ -4,6 +4,7 @@ const jobController = require("../controllers/job.ctrl.js");
 
 // CRUD routes
 router.post("/", jobController.createJob);
+router.post("/many", jobController.createManyJobs);
 router.get("/", jobController.getJobs);
 router.get("/:id", jobController.getJobById);
 router.put("/:id", jobController.updateJob);
