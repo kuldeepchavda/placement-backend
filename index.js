@@ -21,7 +21,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://placement-frontend-3sp7.onrender.com','https://placement-frontend-sepia.vercel.app','http://localhost:5174'],
+  origin: ['http://localhost:5173', 'https://placement-frontend-3sp7.onrender.com','https://placement-frontend-sepia.vercel.app','http://localhost:5174',"https://placement-main.vercel.app"],
   methods: ['GET','HEAD','PUT','PATCH','POST','DELETE'],
   credentials: true,
 };
