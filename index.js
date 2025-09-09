@@ -12,6 +12,7 @@ const ExperienceRoutes = require("./routes/users.routers/experience.router.js")
 const {validateSessions} = require("./middleware/checkSessions.js");
 const userRoutes = require("./routes/users.routers/users.routes.js")
 const EducationRoutes = require("./routes/users.routers/education.router.js")
+const JobApplicationRoutes = require("./routes/jobApplication.router.js")
 // APP INITIATION 
 const app = express()
 
@@ -41,6 +42,8 @@ app.use("/user",userRoutes)
 app.use("/job", jobRoutes)
 app.use("/experience", ExperienceRoutes);
 app.use("/education",EducationRoutes);
+app.use("/apply",JobApplicationRoutes);
+
 
 // START SERVER
 const port = 5000;
