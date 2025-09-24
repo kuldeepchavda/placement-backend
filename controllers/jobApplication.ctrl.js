@@ -9,10 +9,16 @@ exports.applyForJob = async (req, res) => {
     try {
         const { jobId } = req.body;
         const userId = req.user._id; // assuming JWT middleware sets req.user
-
+        console.log(req.user._id);
         const job = await Job.findById(jobId);
         const user = await User.findById(userId);
-        console.log(job, user);
+        // console.log(job, user);
+
+        if (!user.completeProfile){
+            console.log("not completed profile");
+            return res.status(404).json({ msg: "Please complete profile creation." });
+        }
+
         if (!job || !user) {
             return res.status(404).json({ msg: "Job or User not found" });
         }

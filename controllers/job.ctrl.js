@@ -12,7 +12,6 @@ exports.createJob = async (req, res) => {
 
 exports.getJobs = async (req, res) => {
   try { 
-    console.log("giving  all the data to",req.user.email);
     const jobs = await Job.find();
     const jobCounts= await Job.countDocuments();
     res.status(200).json({ success: true, data: {jobs, counts : jobCounts} });

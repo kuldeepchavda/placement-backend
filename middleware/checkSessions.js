@@ -16,10 +16,8 @@ const verifySessions = async (req, res, next) => {
     console.log("validated!")
   }else{
     res.status(403).json({verified:false, message:"Not Verified"})
-    console.log("!validated!")
-    
+    console.log("!validated!") 
   }
-  
 };
 // check and let go if not valid 
 const validateSessions = async (req, res, next) => {

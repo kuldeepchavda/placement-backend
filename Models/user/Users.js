@@ -13,4 +13,8 @@ const UserSchema = new mongoose.Schema({
 },
   { timestamps: true });
 
+UserSchema.virtual("completeProfile").get(function (){
+  return this.fullName && this.email && this.phone ? true : false ;
+})
+
 module.exports = mongoose.model("User_testing432", UserSchema);

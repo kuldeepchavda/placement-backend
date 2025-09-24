@@ -7,6 +7,7 @@ const {verifySessions} = require("../middleware/checkSessions.js")
 router.route("/signup").post(async function (req,res,next) {
 
     passport.authenticate("user_signup", (err, user, info)=>{
+        console.log("message from auth user", user);
         if(err){
             console.log("Got an error while signing up user", info)
             res.status(201).json({message:info.message})
@@ -20,7 +21,7 @@ router.route("/signup").post(async function (req,res,next) {
         res.cookie("token",generatedToken,{
             httpOnly:true,
             secure:false,
-            sameSite:"none",
+            crossSite:"none",
             maxAge:1000*60*60
          })
          res.status(201).json({message:"Signed up"})

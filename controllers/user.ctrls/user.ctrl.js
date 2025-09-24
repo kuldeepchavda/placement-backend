@@ -5,7 +5,6 @@ const  User =  require("../../Models/user/Users")
  */
  const getUser = async (req, res) => {
   try {
-    console.log("pressed", req.user);
     const userId = req.user._id;
     const user = await User.findById(userId);
 
@@ -19,12 +18,10 @@ const  User =  require("../../Models/user/Users")
   }
 };
 
-/**
- * Get all users (admin style)
- */
+/**Get all users (admin style)*/
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await User.find();
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error: error.message });
@@ -36,7 +33,7 @@ const getAllUsers = async (req, res) => {
  */
  const updateUser = async (req, res) => {
   try {
-    console.log(req.user);
+    console.log(req.user);            
     const userId = req.user._id;
     const updates = req.body;
 

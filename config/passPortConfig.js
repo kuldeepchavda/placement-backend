@@ -81,15 +81,15 @@ module.exports = (passport) => {
 
                     // CHECK IF USER EXISTS
                     const user = await User.findOne({ email })
-                    console.log("user",user);
                     if (user) {
                         return done(null, false, { message: "User Already Exists" })
                     }
                     // HASH AND SAVE
                     const salt = await bcrypt.genSalt(10)
                     const hashedPassword = await bcrypt.hash(password, salt);
-
+                    
                     const createdUser = await User.create({ email, password: hashedPassword })
+                    console.log("user_1",createdUser);
                     return done(null, createdUser)
                 } catch (error) {
                     console.log("Error-user", error.message);
@@ -115,7 +115,7 @@ module.exports = (passport) => {
 
                     // CHECK IF USER EXISTS 
                     const user = await User.findOne({ email });
-                    console.log(user);
+                    // console.log(user);
                     
                     if (!user) {
                         console.log(email, "doesn't exist.");
