@@ -17,4 +17,4 @@ const JobSchema = new mongoose.Schema({
   postingDate: { type: Date, default: Date.now },
 }, { timestamps: true });
 // this is job 
-module.exports = mongoose.model("Job", JobSchema);
+module.exports = mongoose.model("Job_testing", JobSchema);

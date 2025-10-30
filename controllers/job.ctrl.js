@@ -11,10 +11,10 @@ exports.createJob = async (req, res) => {
 };
 
 exports.getJobs = async (req, res) => {
-  try { 
+  try {
     const jobs = await Job.find();
-    const jobCounts= await Job.countDocuments();
-    res.status(200).json({ success: true, data: {jobs, counts : jobCounts} });
+    const jobCounts = await Job.countDocuments();
+    res.status(200).json({ success: true, data: { jobs, counts: jobCounts } });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -54,15 +54,29 @@ exports.deleteJob = async (req, res) => {
 
 exports.createManyJobs = async (req, res) => {
   try {
-    const jobsArray = req.body; 
+    const jobsArray = req.body;
     if (!Array.isArray(jobsArray) || jobsArray.length === 0) {
       return res.status(400).json({ success: false, message: "Provide a non-empty array of jobs" });
     }
 
-    const jobs = await Job.insertMany(jobsArray); 
+    const jobs = await Job.insertMany(jobsArray);
 
     res.status(201).json({ success: true, data: jobs });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });
   }
 };
+
+
+exports.filterJobs = async (req, res) => {
+try {
+const prms = req.query;
+console.log("triggered params", prms); 
+const filteredJobs   = await Job.find(prms);
+
+res.status(200).json(filteredJobs);
+} catch (error) {
+res.status(200).json("Got an error...");
+  
+}
+}

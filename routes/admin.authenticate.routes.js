@@ -5,7 +5,6 @@ const router = express.Router()
 const passport = require("passport")
 const { getJWT } = require("../config/JWT_opetations.js")
 
-
 router.route("/signup").post(async (req, res, next) => {
   passport.authenticate("admin_signup", (err, user, info) => { 
     if (err) {

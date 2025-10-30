@@ -3,7 +3,7 @@ const jwt  =  require("jsonwebtoken")
 
 // GET JWT TOKEN 
 const getJWT = (data) => {
-  return jwt.sign(data, process.env.SESSION_SECRET, { expiresIn: 1800 })
+  return jwt.sign(data, process.env.SESSION_SECRET, { expiresIn: 1800000 })
 }
 
 // VERIFY JWT TOKEN 
@@ -12,6 +12,7 @@ const verifyJWT = (token) => {
     decoded = jwt.verify(token, process.env.SESSION_SECRET)
     return decoded
   }
+  
   catch (err) {
     console.log("Error", err.message)
     return null
